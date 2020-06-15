@@ -12,12 +12,15 @@ class Main extends React.Component {
       selectedDish: null
     };
   }
-
+// arrow functions dont have their own this
+// while a normal function does where we have to use bind
+// in the contructor
   onDishSelect(dishId){
     this.setState({selectedDish: dishId});
     }
 
   render(){
+    console.log("asdasdas",typeof(onDishSelect));
     return (
       <div>
         <Navbar dark color="primary">
@@ -27,9 +30,10 @@ class Main extends React.Component {
             </NavbarBrand>
           </div>
         </Navbar>
+        
+        {/* defining onClick Function, the below function is same as function name(dishId){return this.onDishSelect(dishid);} */}    
         <Menu dishes={this.state.dishes}
-        // defining onClick Function, the below function is same as function name(dishId){return this.onDishSelect(dishid);}
-            onClick={(dishId)=> this.onDishSelect(dishId)}/>
+            onClick={(dishId)=>this.onDishSelect(dishId)}/>
             {/* Here I am retrieving the dish from the dish object
              using the dish. filter allows me to iterate over
              all the dishes in the this.state.dishes and returns 
