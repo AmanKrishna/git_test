@@ -32,7 +32,7 @@ function RenderComments({dish}){
         const commentList = dish.comments.map((comments) => {
             return (
                 <li>
-                    <ul className="list-unstyled m-3">
+                    <ul className="list-unstyled m-1">
                         <li className="m-2">{comments.comment}</li>
                         <li className="m-2">-- {comments.author}, {Date(comments.date).toString().substring(4,15)}</li>
                     </ul>
@@ -59,9 +59,11 @@ function RenderComments({dish}){
 
 const DishdetailComponents=(props)=>{
     return (
-        <div className="row">
-            <RenderDish dish={props.currDish}/>
-            <RenderComments dish={props.currDish}/>
+        <div className="container">
+            <div className="row">
+                <RenderDish dish={props.currDish}/>
+                <RenderComments dish={props.currDish}/>
+            </div>
         </div>
     );
 }

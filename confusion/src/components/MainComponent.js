@@ -3,6 +3,8 @@ import { Navbar, NavbarBrand } from 'reactstrap';
 import Menu from './MenuComponents';
 import DishdetailComponents from './DishdetailComponents';
 import {DISHES} from '../shared/dishes';
+import Header from './HeaderComponent'
+import Footer from './FooterComponent'
 
 class Main extends React.Component {
   constructor(props) {
@@ -23,14 +25,7 @@ class Main extends React.Component {
     console.log("asdasdas",typeof(onDishSelect));
     return (
       <div>
-        <Navbar dark color="primary">
-          <div className="container">
-            <NavbarBrand href="/">
-              Ristoranet Con Fusion
-            </NavbarBrand>
-          </div>
-        </Navbar>
-        
+        <Header/>
         {/* defining onClick Function, the below function is same as function name(dishId){return this.onDishSelect(dishid);} */}    
         <Menu dishes={this.state.dishes}
             onClick={(dishId)=>this.onDishSelect(dishId)}/>
@@ -41,6 +36,7 @@ class Main extends React.Component {
              dish*/}
         <DishdetailComponents  currDish={this.state.dishes.filter(
             (dish) => dish.id===this.state.selectedDish)[0]}/>
+        <Footer/>
       </div>
     );
   }
