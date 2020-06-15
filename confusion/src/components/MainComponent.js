@@ -41,6 +41,21 @@ class Main extends React.Component {
         />
       );
     }
+
+    // Route passes 3 props match, location and history
+    // using match I can get Id
+    const DishWithId = ({match}) => {
+      return(
+        // dishId specified in the Route path
+        // parseInt converts string to int in provided base, here 10
+        <DishdetailComponents dish={this.state.dishes.filter((dish) => 
+          dish.id === parseInt(match.params.dishId,10))[0]}
+        comments={this.state.comments.filter((comment) => 
+          comment.dishId === parseInt(match.params.dishId,10))}
+        />
+      );
+    }
+
     return (
       <div>
         <Header/>
@@ -48,6 +63,7 @@ class Main extends React.Component {
           <Route path="/home" component={HomePage}/>
           {/* If i want to pass props to a component */}
           <Route exact path="/menu" component={()=> <Menu dishes={this.state.dishes}/>}/>
+          <Route path="/menu/:dishId" component={DishWithId}/>
           <Route exact path="/contactus" component={Contact}/>
           <Redirect to="/home"/>
         </Switch>
