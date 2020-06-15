@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {Card, CardImg, CardImgOverlay, CardText, CardBody, CardTitle} from 'reactstrap';
-import DishdetailComponent from './components/DishdetailComponent';
+import DishdetailComponents from './DishdetailComponents';
 // here Menu is a component
 class Menu extends Component
 {
@@ -69,12 +69,19 @@ class Menu extends Component
                 <div className="row">
                     {menu}
                 </div>
-                {/* I only added this to include the onClick functionality */}
-                <div className="row">
-                    {this.renderDish(this.state.selectedDish)}
-                    {/* <DishdetailComponent currDish={this.state.dish}/> */}
-                </div>
+                <DishdetailComponents currDish={this.state.selectedDish} />
             </div>
+            // <div className="container">
+            //     <div className="row">
+            //         {menu}
+            //     </div>
+            //     {/* I only added this to include the onClick functionality */}
+            //     <div className="row">
+            //         {this.renderDish(this.state.selectedDish)}
+            //         {/* <DishdetailComponent currDish={this.state.dish}/> */}
+            //     </div>
+            // </div>
+            
         );
     }
 }
