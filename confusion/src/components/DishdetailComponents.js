@@ -2,13 +2,8 @@ import React from 'react';
 import {Card,CardTitle,CardImg,CardImgOverlay,CardText,CardBody} from 'reactstrap';
 import Menu from './MenuComponents';
 
+
 class DishdetailComponents extends React.Component {
-    // contructor(props){
-    //     super(props);
-    //     this.state={
-    //         selectedDish: this.props.currDish
-    //     }
-    // }
 
     renderDish(dish){
         if(dish!=null)
@@ -39,9 +34,9 @@ class DishdetailComponents extends React.Component {
             const commentList = dish.comments.map((comments) => {
                 return (
                     <li>
-                        <ul className="list-unstyled">
-                            <li>{comments.comment}</li>
-                            <li>-- {comments.author}, {Date(comments.date).toString().substring(0,15)}</li>
+                        <ul className="list-unstyled m-3">
+                            <li className="m-2">{comments.comment}</li>
+                            <li className="m-2">-- {comments.author}, {Date(comments.date).toString().substring(4,15)}</li>
                         </ul>
                     </li>
                 );

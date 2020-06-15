@@ -1,46 +1,11 @@
 import React, {Component} from 'react';
 import {Card, CardImg, CardImgOverlay, CardText, CardBody, CardTitle} from 'reactstrap';
-import DishdetailComponents from './DishdetailComponents';
 // here Menu is a component
 class Menu extends Component
 {
-    // contructor for the componenet
-    constructor(props)
-    {
-      // super initiates parent constructor first
-      // thus allowing children to access its methods
-        super(props);
-        this.state = {
-            selectedDish: null
-        }
-        console.log('Menu Contructor was called');
-    }
 
     componentDidMount(){
         console.log('Menu Didmount was called');
-    }
-
-    onDishSelect(dish){
-        this.setState({selectedDish: dish});
-    }
-
-    renderDish(dish){
-        if(dish!=null){
-            return (
-                <Card>
-                    <CardImg width="100%" src={dish.image} alt={dish.name}/>
-                    <CardBody>
-                        <CardTitle>{dish.name}</CardTitle>
-                        <CardText>{dish.description}</CardText>
-                    </CardBody>
-                </Card>
-            );
-        }
-        else{
-            return(
-                <div></div>
-            );
-        }
     }
     // Every component must have a render function to render the
     // the component
@@ -53,7 +18,9 @@ class Menu extends Component
                 // key enable identification of each item
                 <div key={dish.id} className="col-12 col-md-5 m-1">
                 {/* I have to use arrow function to pass argument using onClick function */}
-                    <Card onClick={()=> this.onDishSelect(dish)}>
+                    {/* I am using the onClick Function defined
+                    in the MainComponent */}
+                    <Card onClick={()=>this.props.onClick(dish.id)}>
                         <CardImg width="100%" object src={dish.image} alt={dish.name} />
                         <CardImgOverlay>
                             <CardTitle>{dish.name}</CardTitle>
@@ -69,18 +36,7 @@ class Menu extends Component
                 <div className="row">
                     {menu}
                 </div>
-                <DishdetailComponents currDish={this.state.selectedDish} />
             </div>
-            // <div className="container">
-            //     <div className="row">
-            //         {menu}
-            //     </div>
-            //     {/* I only added this to include the onClick functionality */}
-            //     <div className="row">
-            //         {this.renderDish(this.state.selectedDish)}
-            //         {/* <DishdetailComponent currDish={this.state.dish}/> */}
-            //     </div>
-            // </div>
             
         );
     }
