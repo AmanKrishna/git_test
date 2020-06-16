@@ -9,6 +9,7 @@ import * as serviceWorker from './serviceWorker';
 
 ReactDOM.render(
   <React.StrictMode>
+    {console.log("index.js")}
     <App />
   </React.StrictMode>,
   document.getElementById('root')

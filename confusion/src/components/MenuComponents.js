@@ -18,7 +18,6 @@ function RenderMenuItem({dish,onClick}){
 }
 // here is defined an arrow function instead
 const Menu = (props)=>{
-    console.log('Menu render() was called');
     const menu = props.dishes.map((dish) => {
     // this return populates the menu  variable
         return (
@@ -34,6 +33,7 @@ const Menu = (props)=>{
         // this renders the HTML and return to App.js
     return (
         <div className="container">
+        {console.log("Menu: Return")}
             <div className="row">
                 <Breadcrumb>
                     <BreadcrumbItem><Link to="/home">Home</Link></BreadcrumbItem>

@@ -63,6 +63,7 @@ function RenderComments({comments}){
 const DishdetailComponents=(props)=>{
     return (
         <div className="container">
+        {console.log("DishDetails")}
             <div className="row">
                 <Breadcrumb>
                     <BreadcrumbItem><Link to="/menu">Menu</Link></BreadcrumbItem>
