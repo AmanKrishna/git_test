@@ -2,29 +2,32 @@ import React from 'react';
 import { Navbar, NavbarBrand } from 'reactstrap';
 import Menu from './MenuComponents';
 import DishdetailComponents from './DishdetailComponents';
-import {DISHES} from '../shared/dishes';
-import {Comments, COMMENTS} from '../shared/comments';
-import {LEADERS} from '../shared/leaders';
-import {PROMOTIONS} from '../shared/promotion';
 import Header from './HeaderComponent';
 import Footer from './FooterComponent';
 import Home from './HomeComponent';
 import Contact from './ContactComponent'
 import About from './AboutComponent'
-import {Switch, Route, Redirect} from 'react-router-dom';
+import {Switch, Route, Redirect,withRouter} from 'react-router-dom';
+// Connecting MainComponent to redux store
+import {connect} from 'react-redux';
+
+// getting state from the state
+// the store sends the state as props
+const mapStateToProps = state =>{
+  return{
+    dishes: state.dishes,
+    comments: state.comments,
+    leaders: state.leaders,
+    promotion: state.promotions
+  }
+}
 
 class Main extends React.Component {
   constructor(props) {
     console.log("Main: Contructor")
     super(props);
-    this.state={
-      dishes: DISHES,
-      comments: COMMENTS,
-      promotion: PROMOTIONS,
-      leaders: LEADERS,
-      selectedDish: null
-    };
   }
+
 // arrow functions dont have their own this
 // while a normal function does where we have to use bind
 // in the contructor
@@ -39,9 +42,9 @@ class Main extends React.Component {
       console.log("Main: HomePage")
       return(
         <Home 
-        dish={this.state.dishes.filter((dish) => dish.featured)[0]}
-        promotion={this.state.promotion.filter((promo) => promo.featured)[0]}
-        leader={this.state.leaders.filter((leader) => leader.featured)[0]}
+        dish={this.props.dishes.filter((dish) => dish.featured)[0]}
+        promotion={this.props.promotion.filter((promo) => promo.featured)[0]}
+        leader={this.props.leaders.filter((leader) => leader.featured)[0]}
         />
       );
     }
@@ -53,9 +56,9 @@ class Main extends React.Component {
       return(
         // dishId specified in the Route path
         // parseInt converts string to int in provided base, here 10
-        <DishdetailComponents dish={this.state.dishes.filter((dish) => 
+        <DishdetailComponents dish={this.props.dishes.filter((dish) => 
           dish.id === parseInt(match.params.dishId,10))[0]}
-        comments={this.state.comments.filter((comment) => 
+        comments={this.props.comments.filter((comment) => 
           comment.dishId === parseInt(match.params.dishId,10))}
         />
       );
@@ -64,7 +67,7 @@ class Main extends React.Component {
     const AboutUs = () => {
       console.log("Main: AboutUs is called")
       return(
-        <About leaders={this.state.leaders}/>
+        <About leaders={this.props.leaders}/>
       );
     }
 
@@ -75,7 +78,7 @@ class Main extends React.Component {
         <Switch>
           <Route path="/home" component={HomePage}/>
           {/* If i want to pass props to a component */}
-          <Route exact path="/menu" component={()=> <Menu dishes={this.state.dishes}/>}/>
+          <Route exact path="/menu" component={()=> <Menu dishes={this.props.dishes}/>}/>
           <Route path="/menu/:dishId" component={DishWithId}/>
           <Route path="/aboutus" component={AboutUs}/>
           <Route exact path="/contactus" component={Contact}/>
@@ -86,5 +89,6 @@ class Main extends React.Component {
     );
   }
 }
-
-export default Main;
+// conencting component to react router
+// connect takes 2 optional arguments
+export default withRouter(connect(mapStateToProps)(Main));
