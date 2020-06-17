@@ -24,7 +24,7 @@ class Header extends React.Component{
     {
         this.setState({
             isModalOpen:!this.state.isModalOpen
-        })
+        });
     }
     // value of uncontrolled form using
     // innerRef
