@@ -5,11 +5,12 @@ import DishdetailComponents from './DishdetailComponents';
 import Header from './HeaderComponent';
 import Footer from './FooterComponent';
 import Home from './HomeComponent';
-import Contact from './ContactComponent'
-import About from './AboutComponent'
+import Contact from './ContactComponent';
+import About from './AboutComponent';
 import {Switch, Route, Redirect,withRouter} from 'react-router-dom';
 // Connecting MainComponent to redux store
 import {connect} from 'react-redux';
+import {addComment} from '../redux/ActionCreators';
 
 // getting state from the state
 // the store sends the state as props
@@ -21,6 +22,20 @@ const mapStateToProps = state =>{
     promotion: state.promotions
   }
 }
+
+// after adding mapDispatchToProps to connect this function
+// will recieve dispatch on its own.
+// The below function is creating a dispatch function
+// that can be used inside a component
+// In, addComment(...) is an action
+// and dispatch(addComment) is a dispatch function
+// acting on this action and 
+// addComment: is the name of the dispatch function that
+// I can use to dispatch actions to the store
+const mapDispatchToProps = dispatch => ({
+  addComment: (dishId, rating, author, comment) => 
+      dispatch(addComment(dishId, rating, author, comment))
+});
 
 class Main extends React.Component {
   constructor(props) {
@@ -56,10 +71,12 @@ class Main extends React.Component {
       return(
         // dishId specified in the Route path
         // parseInt converts string to int in provided base, here 10
-        <DishdetailComponents dish={this.props.dishes.filter((dish) => 
+        <DishdetailComponents 
+        dish={this.props.dishes.filter((dish) => 
           dish.id === parseInt(match.params.dishId,10))[0]}
         comments={this.props.comments.filter((comment) => 
           comment.dishId === parseInt(match.params.dishId,10))}
+        addComment={this.props.addComment}
         />
       );
     }
@@ -91,4 +108,4 @@ class Main extends React.Component {
 }
 // conencting component to react router
 // connect takes 2 optional arguments
-export default withRouter(connect(mapStateToProps)(Main));
+export default withRouter(connect(mapStateToProps,mapDispatchToProps)(Main));

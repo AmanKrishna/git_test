@@ -28,9 +28,10 @@ class CommentForm extends React.Component{
     }
 
     handleSubmit(values){
-        console.log("Current Staet is: " + JSON.stringify(values));
-        alert("Current state is: "+JSON.stringify(values));
+        console.log("Current Staet is: ",values.rating,values.author,values.comment);
+        // alert("Current state is: "+JSON.stringify(values));
         this.toggleModal();
+        this.props.addComment(this.props.dishId,values.rating,values.author,values.comment);
     }
 
     render(){
@@ -74,14 +75,14 @@ class CommentForm extends React.Component{
                             <Row class="form-group">
                                 <Label htmlFor="username">Name</Label>
                                 <Control.text className="form-control"
-                                    model=".name" id="name" name="name"
+                                    model=".author" id="author" name="author"
                                     validators={{
                                         minLength: minLength(3),maxLength: maxLength(15)
                                     }}
                                     />
                                 <Errors 
                                     className="text-danger"
-                                    model=".name"
+                                    model=".author"
                                     // check only when this is touched
                                     show="touched"
                                     messages={{
@@ -94,7 +95,7 @@ class CommentForm extends React.Component{
                             <Row className="form-group">
                                 <Label htmlFor="comment">Comment</Label>
                                 <Control.textarea className="form-control"
-                                    model=".message" id="message" name="message" 
+                                    model=".comment" id="comment" name="comment" 
                                     rows="5"/>
                             </Row>
                             <Row className="form-group">
@@ -131,7 +132,7 @@ function RenderDish({dish}){
     }
 }
 
-function RenderComments({comments}){
+function RenderComments({comments, addComment, dishId}){
     if(comments!=null)
     {
         const commentList = comments.map((comment) => {
@@ -151,7 +152,8 @@ function RenderComments({comments}){
                 <ul className="list-unstyled">
                     {commentList}
                 </ul>
-                <CommentForm/>
+                <CommentForm dishId={dishId}
+                    addComment={addComment}/>
             </div>
         );
     }
@@ -179,7 +181,9 @@ const DishdetailComponents=(props)=>{
             </div>
             <div className="row">
                 <RenderDish dish={props.dish}/>
-                <RenderComments comments={props.comments}/>
+                <RenderComments comments={props.comments} 
+                    addComment={props.addComment}
+                    dishId={props.dish.id}/>
             </div>
         </div>
     );
