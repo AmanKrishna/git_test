@@ -6,6 +6,12 @@ import {Link} from 'react-router-dom';
 
 
 
+class CommentForm extends React.Component{
+    constructor(props){
+        super(props);
+    }
+}
+
 function RenderDish({dish}){
     if(dish!=null)
     {
