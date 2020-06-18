@@ -6,6 +6,7 @@ import { Card, CardImg, CardText, CardBody,
 import Menu from './MenuComponents';
 import {Link} from 'react-router-dom';
 import {Control, LocalForm,Error, Errors} from 'react-redux-form';
+import {Loading} from './LoadingComponent';
 
 const required = (val) => !isNaN(Number(val));
 // need to do val and !val as initially they are null
@@ -166,6 +167,24 @@ function RenderComments({comments, addComment, dishId}){
 }
 
 const DishdetailComponents=(props)=>{
+    if(props.isLoading){
+        return(
+            <div className="container">
+                <div classname="row">
+                    <Loading/>
+                </div>
+            </div>
+        );
+    }
+    else if(props.errMess){
+        return(
+            <div className="container">
+                <div className="row">
+                    <h4>{props.errMess}</h4>
+                </div>
+            </div>
+        );
+    }
     return (
         <div className="container">
         {console.log("DishDetails")}

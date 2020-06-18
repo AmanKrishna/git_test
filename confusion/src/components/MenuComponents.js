@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {Card, CardImg, CardImgOverlay, CardText, CardBody, CardTitle, Breadcrumb, BreadcrumbItem} from 'reactstrap';
 import {Link} from 'react-router-dom';
+import {Loading} from './LoadingComponent';
 // here Menu is a component
 
 
@@ -18,7 +19,7 @@ function RenderMenuItem({dish,onClick}){
 }
 // here is defined an arrow function instead
 const Menu = (props)=>{
-    const menu = props.dishes.map((dish) => {
+    const menu = props.dishes.dishes.map((dish) => {
     // this return populates the menu  variable
         return (
             // key enable identification of each item
@@ -30,6 +31,25 @@ const Menu = (props)=>{
             </div>
         );
     });
+
+    if(props.dishes.isLoading){
+        return(
+            <div className="container">
+                <div classname="row">
+                    <Loading />
+                </div>
+            </div>
+        );
+    }
+    else if(props.dishes.errMess){
+        return(
+            <div className="container">
+                <div className="row">
+                    <h4>{props.dishes.errMess}</h4>
+                </div>
+            </div>
+        );
+    }
         // this renders the HTML and return to App.js
     return (
         <div className="container">
