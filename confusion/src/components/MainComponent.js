@@ -11,6 +11,7 @@ import {Switch, Route, Redirect,withRouter} from 'react-router-dom';
 // Connecting MainComponent to redux store
 import {connect} from 'react-redux';
 import {addComment, fetchDishes} from '../redux/ActionCreators';
+import {actions} from 'react-redux-form';
 
 // getting state from the state
 // the store sends the state as props
@@ -36,7 +37,10 @@ const mapDispatchToProps = dispatch => ({
   addComment: (dishId, rating, author, comment) => 
       dispatch(addComment(dishId, rating, author, comment)),
 // This is a thunk
-  fetchDishes: () => {dispatch(fetchDishes())}
+  fetchDishes: () => {dispatch(fetchDishes())},
+  // the form will be named feedback
+  // this dunction resets the form
+  resetFeedbackForm: ()=> {dispatch(actions.reset('feedback'))}
 });
 
 class Main extends React.Component {
@@ -106,11 +110,11 @@ class Main extends React.Component {
         <Header/>
         <Switch>
           <Route path="/home" component={HomePage}/>
-          {/* If i want to pass props to a component */}
+          {/* If i want to pass props to a component I need arrow function */}
           <Route exact path="/menu" component={()=> <Menu dishes={this.props.dishes}/>}/>
           <Route path="/menu/:dishId" component={DishWithId}/>
           <Route path="/aboutus" component={AboutUs}/>
-          <Route exact path="/contactus" component={Contact}/>
+          <Route exact path="/contactus" component={() => <Contact resetFeedbackForm={this.props.resetFeedbackForm}/>}/>
           <Redirect to="/home"/>
         </Switch>
         <Footer/>
