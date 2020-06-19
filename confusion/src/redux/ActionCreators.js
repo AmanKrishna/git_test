@@ -26,11 +26,35 @@ export const fetchDishes = () => (dispatch) => {
 
     // fetch will return a promise ie response
     return fetch(baseUrl + 'dishes')
-        // response.json will convert response into json
+        .then(response=>{
+            // the following if else if when I do recieve a reponse
+            // from the server
+            // if response is ok
+            if(response.ok){
+                // this response will be delivered to the next then
+                return response;
+            }
+            else{
+                var error = new Error('Error '+response.status+': '+response.statusText);
+                error.response = response;
+                // throw error for catch
+                throw error;
+            }
+            
+        },
+        // If I dont recieve any response from server
+        // or server is unreachable
+        // new Error(message)
+        error=>{
+            var errmess=new Error(error.message);
+            throw errmess;
+        })
+        // response.json will convert response into js object
         // which will be returned and I will use it
         // in the next then as dishes
         .then(response => response.json())
-        .then(dishes => dispatch(addDishes(dishes)));
+        .then(dishes => dispatch(addDishes(dishes)))
+        .catch(error=> dispatch(dishesFailed(error.message)));
 }
 
 // tell that the dish is loading
@@ -54,11 +78,35 @@ export const fetchComments = () => (dispatch) => {
 
     // fetch will return a promise ie response
     return fetch(baseUrl + 'comments')
+        .then(response=>{
+            // the following if else if when I do recieve a reponse
+            // from the server
+            // if response is ok
+            if(response.ok){
+                // this response will be delivered to the next then
+                return response;
+            }
+            else{
+                var error = new Error('Error '+response.status+': '+response.statusText);
+                error.response = response;
+                // throw error for catch
+                throw error;
+            }
+            
+        },
+        // If I dont recieve any response from server
+        // or server is unreachable
+        // new Error(message)
+        error=>{
+            var errmess=new Error(error.message);
+            throw errmess;
+        })
         // response.json will convert response into json
         // which will be returned and I will use it
         // in the next then as dishes
         .then(response => response.json())
-        .then(comments => dispatch(addComments(comments)));
+        .then(comments => dispatch(addComments(comments)))
+        .catch(error=> dispatch(commentsFailed(error.message)));
 }
 
 
@@ -78,11 +126,35 @@ export const fetchPromos = () => (dispatch) => {
     dispatch(promosLoading(true));
     // fetch will return a promise ie response
     return fetch(baseUrl + 'promotions')
+        .then(response=>{
+            // the following if else if when I do recieve a reponse
+            // from the server
+            // if response is ok
+            if(response.ok){
+                // this response will be delivered to the next then
+                return response;
+            }
+            else{
+                var error = new Error('Error '+response.status+': '+response.statusText);
+                error.response = response;
+                // throw error for catch
+                throw error;
+            }
+            
+        },
+        // If I dont recieve any response from server
+        // or server is unreachable
+        // new Error(message)
+        error=>{
+            var errmess=new Error(error.message);
+            throw errmess;
+        })
         // response.json will convert response into json
         // which will be returned and I will use it
         // in the next then as dishes
         .then(response => response.json())
-        .then(promos => dispatch(addPromos(promos)));
+        .then(promos => dispatch(addPromos(promos)))
+        .catch(error=> dispatch(promosFailed(error.message)));
 }
 
 // tell that the dish is loading
