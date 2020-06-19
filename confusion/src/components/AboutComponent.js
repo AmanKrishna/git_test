@@ -1,15 +1,36 @@
 import React from 'react';
 import { Breadcrumb, BreadcrumbItem, Card, CardBody, CardHeader, Media } from 'reactstrap';
 import { Link } from 'react-router-dom';
+import {Loading} from './LoadingComponent';
+import {baseUrl} from '../shared/baseUrl';
 
-function About(props) {
+const Return_leaders = ({leaders}) => {
 
-    const leaders = props.leaders.map((leader) => {
+    if(leaders.isLoading){
+        return(
+            <div className="container">
+                <div classname="row">
+                    <Loading />
+                </div>
+            </div>
+        );
+    }
+    else if(leaders.errMess){
+        return(
+            <div className="container">
+                <div className="row">
+                    <h4>{leaders.errMess}</h4>
+                </div>
+            </div>
+        );
+    }
+
+    const leader_list = leaders.leaders.map((leader) => {
         return (
             // <p>Leader {leader.name}</p>
             <Media className="m-2">
                 <Media className="align-self-top mt-2 mr-5">
-                    <Media object src="assets/images/alberto.png"/>
+                    <Media object src={baseUrl+leader.image}/>
                 </Media>
                 <Media body>
                     <Media heading>
@@ -22,6 +43,10 @@ function About(props) {
         );
     });
 
+    return leader_list;
+}
+
+const About = (props) => {
     return(
         <div className="container">
             <div className="row">
@@ -78,7 +103,7 @@ function About(props) {
                 </div>
                 <div className="col-12">
                     <Media list>
-                        {leaders}
+                        <Return_leaders leaders={props.leaders}/>
                     </Media>
                 </div>
             </div>

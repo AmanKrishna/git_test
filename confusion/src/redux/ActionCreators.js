@@ -210,3 +210,56 @@ export const addPromos = (promos) => ({
     type: ActionTypes.ADD_PROMOS,
     payload: promos
 });
+
+export const fetchLeaders = () => (dispatch) => {
+    dispatch(leadersLoading(true));
+
+    // fetch will return a promise ie response
+    return fetch(baseUrl + 'leaders')
+        .then(response=>{
+            // the following if else if when I do recieve a reponse
+            // from the server
+            // if response is ok
+            if(response.ok){
+                // this response will be delivered to the next then
+                return response;
+            }
+            else{
+                var error = new Error('Error '+response.status+': '+response.statusText);
+                error.response = response;
+                // throw error for catch
+                throw error;
+            }
+            
+        },
+        // If I dont recieve any response from server
+        // or server is unreachable
+        // new Error(message)
+        error=>{
+            var errmess=new Error(error.message);
+            throw errmess;
+        })
+        // response.json will convert response into js object
+        // which will be returned and I will use it
+        // in the next then as dishes
+        .then(response => response.json())
+        .then(leaders => dispatch(addLeaders(leaders)))
+        .catch(error=> dispatch(leadersFailed(error.message)));
+}
+
+// tell that the dish is loading
+export const leadersLoading = () => ({
+    type: ActionTypes.LEADERS_LOADING
+});
+
+// return an action object
+export const leadersFailed = (errMess) => ({
+    type: ActionTypes.LEADERS_FAILED,
+    payload: errMess
+});
+
+// return an action object to add comments
+export const addLeaders = (leaders) => ({
+    type: ActionTypes.ADD_LEADERS,
+    payload: leaders
+});

@@ -10,7 +10,7 @@ import About from './AboutComponent';
 import {Switch, Route, Redirect,withRouter} from 'react-router-dom';
 // Connecting MainComponent to redux store
 import {connect} from 'react-redux';
-import {postComment, fetchDishes,fetchComments,fetchPromos} from '../redux/ActionCreators';
+import {postComment, fetchDishes,fetchComments,fetchPromos,fetchLeaders} from '../redux/ActionCreators';
 import {actions} from 'react-redux-form';
 import {TransitionGroup,CSSTransition} from 'react-transition-group';
 
@@ -41,6 +41,7 @@ const mapDispatchToProps = dispatch => ({
   fetchDishes: () => {dispatch(fetchDishes())},
   fetchComments: () => {dispatch(fetchComments())},
   fetchPromos: () => {dispatch(fetchPromos())},
+  fetchLeaders: () => {dispatch(fetchLeaders())},
   // the form will be named feedback
   // this dunction resets the form
   resetFeedbackForm: ()=> {dispatch(actions.reset('feedback'))}
@@ -58,6 +59,7 @@ class Main extends React.Component {
     this.props.fetchDishes();
     this.props.fetchComments();
     this.props.fetchPromos();
+    this.props.fetchLeaders();
   }
 
 // arrow functions dont have their own this
@@ -80,7 +82,9 @@ class Main extends React.Component {
         promotion={this.props.promotion.promos.filter((promo) => promo.featured)[0]}
         promotionLoading={this.props.promotion.isLoading}
         promotionErrMess={this.props.promotion.errMess}
-        leader={this.props.leaders.filter((leader) => leader.featured)[0]}
+        leader={this.props.leaders.leaders.filter((leader) => leader.featured)[0]}
+        leaderLoading={this.props.leaders.isLoading}
+        leaderErrMess={this.props.leaders.errMess}
         />
       );
     }
