@@ -5,16 +5,53 @@ import {baseUrl} from '../shared/baseUrl';
 // will create an action obj
 // const x = () => {} // Does nothing
 // const y = () => ({}) // returns an object
-export const addComment = (dishId,rating,author,comment) => ({
+export const addComment = (comment) => ({
     // will only affect comments there I will change comments.js
     type: ActionTypes.ADD_COMMENT,
-    payload: {
+    payload: comment
+});
+
+export const postComment = (dishId,rating,author,comment) => (dispatch) => {
+
+    const newComment= {
         dishId: dishId,
         rating: rating,
         author: author,
         comment: comment
     }
-});
+    // comment id will be taken care by the user
+    newComment.date = new Date().toISOString();
+    return fetch(baseUrl + 'comments', {
+        method: "POST",
+        body: JSON.stringify(newComment),
+        headers: {
+          "Content-Type": "application/json"
+        },
+        credentials: "same-origin"
+    })
+    .then(response => {
+        if (response.ok) {
+          return response;
+        } else {
+          var error = new Error('Error ' + response.status + ': ' + response.statusText);
+          error.response = response;
+          throw error;
+        }
+      },
+      error => {
+            throw error;
+      })
+    //   I will send a post message and then get a response
+    // this response will contain the updated comments
+    .then(response => {
+        let temp = response.json();
+        console.log(temp);
+        return temp;
+    })
+    // updating the store
+    .then(response => dispatch(addComment(response)))
+    .catch(error =>  { console.log('post comments', error.message); alert('Your comment could not be posted\nError: '+error.message); });
+}
 
 // here instead of returning an action object
 // I am returning a function

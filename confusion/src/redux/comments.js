@@ -18,10 +18,6 @@ export const Comments = (state = {
         // no case to catch it hence will ignore it
         case ActionTypes.ADD_COMMENT:
             var comment = action.payload;
-            // adding ID and date to the comment object 
-            // obtained from action.payload
-            comment.id = state.comments.length;
-            comment.date = new Date().toISOString();
             // here i am not persisiting into the db
             console.log("Comment: ",comment);
             // I can skip things which donot get effected or change
