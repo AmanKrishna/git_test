@@ -12,6 +12,7 @@ import {Switch, Route, Redirect,withRouter} from 'react-router-dom';
 import {connect} from 'react-redux';
 import {postComment, fetchDishes,fetchComments,fetchPromos} from '../redux/ActionCreators';
 import {actions} from 'react-redux-form';
+import {TransitionGroup,CSSTransition} from 'react-transition-group';
 
 // getting state from the state
 // the store sends the state as props
@@ -115,15 +116,20 @@ class Main extends React.Component {
       <div>
         {console.log("Main: Return Render")}
         <Header/>
-        <Switch>
-          <Route path="/home" component={HomePage}/>
-          {/* If i want to pass props to a component I need arrow function */}
-          <Route exact path="/menu" component={()=> <Menu dishes={this.props.dishes}/>}/>
-          <Route path="/menu/:dishId" component={DishWithId}/>
-          <Route path="/aboutus" component={AboutUs}/>
-          <Route exact path="/contactus" component={() => <Contact resetFeedbackForm={this.props.resetFeedbackForm}/>}/>
-          <Redirect to="/home"/>
-        </Switch>
+        <TransitionGroup>
+            <CSSTransition key={this.props.location.key} 
+              classNames="page" timeout={300}>
+              <Switch>
+                <Route path="/home" component={HomePage}/>
+                {/* If i want to pass props to a component I need arrow function */}
+                <Route exact path="/menu" component={()=> <Menu dishes={this.props.dishes}/>}/>
+                <Route path="/menu/:dishId" component={DishWithId}/>
+                <Route path="/aboutus" component={AboutUs}/>
+                <Route exact path="/contactus" component={() => <Contact resetFeedbackForm={this.props.resetFeedbackForm}/>}/>
+                <Redirect to="/home"/>
+              </Switch>
+          </CSSTransition>
+        </TransitionGroup>
         <Footer/>
       </div>
     );
