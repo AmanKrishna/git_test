@@ -9,6 +9,7 @@ import {Leaders} from './leaders';
 import thunk from 'redux-thunk';
 import logger from 'redux-logger';
 import {InitialFeedback} from './forms';
+import { Feedback } from './feedback';
 
 // create store needs a reducer and an initial state
 // store = database of state and reducer = set of functions
@@ -20,13 +21,14 @@ export const ConfigureStore = () =>{
             comments: Comments,
             promotions: Promotions,
             leaders: Leaders,
+            feedbacks: Feedback,
             // redux will create this reducer and provide the action
             ...createForms({
                 feedback: InitialFeedback
             })
         }),
         // adding a middleware
-        applyMiddleware(thunk,logger)
+        applyMiddleware(thunk)
     );
 
     return store;

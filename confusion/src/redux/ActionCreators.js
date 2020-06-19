@@ -53,6 +53,95 @@ export const postComment = (dishId,rating,author,comment) => (dispatch) => {
     .catch(error =>  { console.log('post comments', error.message); alert('Your comment could not be posted\nError: '+error.message); });
 }
 
+
+// action creator for adding feedback
+export const addFeedback = (feedback) => ({
+    type: ActionTypes.ADD_FEEDBACK,
+    payload: feedback
+});
+
+export const feedbackFailed = (errMess) => ({
+    type: ActionTypes.FEEDBACK_ERROR,
+    payload: errMess
+});
+
+export const fetchFeedbacks = () => (dispatch) => {
+
+    // fetch will return a promise ie response
+    return fetch(baseUrl + 'feedback')
+        .then(response=>{
+            // the following if else if when I do recieve a reponse
+            // from the server
+            // if response is ok
+            if(response.ok){
+                // this response will be delivered to the next then
+                return response;
+            }
+            else{
+                var error = new Error('Error '+response.status+': '+response.statusText);
+                error.response = response;
+                // throw error for catch
+                throw error;
+            }
+            
+        },
+        // If I dont recieve any response from server
+        // or server is unreachable
+        // new Error(message)
+        error=>{
+            var errmess=new Error(error.message);
+            throw errmess;
+        })
+        // response.json will convert response into json
+        // which will be returned and I will use it
+        // in the next then as dishes
+        .then(response => response.json())
+        .then(feedbacks => dispatch(addFeedback(feedbacks)))
+        .catch(error=> dispatch(feedbackFailed(error.message)));
+}
+
+export const postFeedback = (firstName,lastName,telnum,email,agree,contactType,message)=> (dispatch) => {
+    const newFeedback = {
+        firstName: firstName,
+        lastName: lastName,
+        telnum: telnum,
+        email: email,
+        agree: agree,
+        contactType: contactType,
+        message: message
+    }
+    console.log('NEW FEEDBACK: ',newFeedback);
+    return fetch(baseUrl+'feedback',{
+        method: "POST",
+        body: JSON.stringify(newFeedback),
+        headers: {
+          "Content-Type": "application/json"
+        },
+        credentials: "same-origin"
+    })
+    .then(response => {
+        if(response.ok){
+            return response;
+        }
+        else{
+            var error = new Error("Error "+response.status+": "+response.message);
+            error.response = response;
+            throw error;
+        }
+    },
+        error => {
+            throw error;    
+        }
+    )
+    .then(response => response.json())
+    .then(feedback => {
+        alert(JSON.stringify(feedback));
+        return feedback;
+    })
+    .then(feedback => dispatch(addFeedback(feedback)))
+    .catch(error => console.log(error));
+}
+
 // here instead of returning an action object
 // I am returning a function
 // this is a redux-thunk
