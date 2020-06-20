@@ -1,5 +1,4 @@
 import React from 'react';
-import { Navbar, NavbarBrand } from 'reactstrap';
 import Menu from './MenuComponents';
 import DishdetailComponents from './DishdetailComponents';
 import Header from './HeaderComponent';
@@ -22,7 +21,7 @@ const mapStateToProps = state =>{
     comments: state.comments,
     leaders: state.leaders,
     promotion: state.promotions,
-    // feedbacks: state.feedbacks
+    feedbacks: state.feedbacks
   }
 }
 

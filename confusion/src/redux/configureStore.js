@@ -28,7 +28,7 @@ export const ConfigureStore = () =>{
             })
         }),
         // adding a middleware
-        applyMiddleware(thunk)
+        applyMiddleware(thunk,logger)
     );
 
     return store;

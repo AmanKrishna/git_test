@@ -1,4 +1,3 @@
-import {PROMOTIONS} from '../shared/promotion';
 import * as ActionTypes from './ActionTypes';
 // return dishes by default
 export const Promotions = (state = {

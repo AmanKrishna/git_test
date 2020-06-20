@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import {Loading} from './LoadingComponent';
 import {baseUrl} from '../shared/baseUrl';
 
-const Return_leaders = ({leaders}) => {
+const ReturnLeaders = ({leaders}) => {
 
     if(leaders.isLoading){
         return(
@@ -103,7 +103,7 @@ const About = (props) => {
                 </div>
                 <div className="col-12">
                     <Media list>
-                        <Return_leaders leaders={props.leaders}/>
+                        <ReturnLeaders leaders={props.leaders}/>
                     </Media>
                 </div>
             </div>
